@@ -1,9 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Chat from "./Chat";
 
 function Messenger() {
-  const [message, setMessage] = useState(["hello", "world"]);
+  const [message, setMessage] = useState([]);
   const [localState, setLocalState] = useState("");
+
+  useEffect(() => {
+    const link =
+      "https://limitless-chat-application-default-rtdb.firebaseio.com/chats.json";
+    fetch(link)
+      .then((response) => response.json())
+      .then((responseData) => {
+        setMessage(responseData);
+      });
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
